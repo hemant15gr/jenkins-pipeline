@@ -68,7 +68,7 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, httpPort){
+def runApp(containerName, tag, dockerHubUser, dockerPassword, httpPort){
     sh "docker login 192.168.31.114:5050 -u $dockerUser -p $dockerPassword"
     sh "ssh dckersshuser@192.168.31.87"
     sh "docker pull $dockerHubUser/$containerName"
