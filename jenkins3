@@ -42,11 +42,10 @@ node {
     }
 
     stage('Run App on CI-CD Server'){
-       def dockerrun = sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
+       def dockerrun = sh "docker run -d --rm -p 8090:8090 --name $containerName $dockerHubUser/$containerName:$tag"
        sh "docker pull $dockerHubUser/$containerName"
          sshagent ('cicdserver'){
           sh 'ssh -o StrictHostKeyChecking=no  hemant.kumar@192.168.31.87 $(dockerrun)'
-       echo "Application started on port: ${httpPort} (http)"
   }
     }
    
