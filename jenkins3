@@ -61,11 +61,8 @@ def imageBuild(containerName, tag){
 }
 
 def pushToImage(containerName, tag, dockerUser, dockerPassword){
-   sshagent ('cicdserver'){
-      sh 'ssh -o StrictHostKeyChecking=no  hemant.kumar@192.168.31.87'
     sh "docker login 192.168.31.114:5050 -u $dockerUser -p $dockerPassword"
     sh "docker tag $containerName:$tag 192.168.31.114:5050/$containerName:$tag"
     sh "docker push 192.168.31.114:5050/$containerName:$tag"
     echo "Image push complete"
-}
 }
