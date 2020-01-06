@@ -67,3 +67,4 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     sh "docker push 192.168.31.114:5050/$containerName:$tag"
     echo "Image push complete"
 }
+}
