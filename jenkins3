@@ -40,13 +40,14 @@ node {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
     }
-    stage('move to CI-CD Server'){
-       sshagent ('cicdserver'){
-      sh 'ssh -o StrictHostKeyChecking=no  hemant.kumar@192.168.31.87'}
-      }
 
-    stage('Run App'){
-       runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+    stage('Run App on CI-CD Server'){
+       def dockerrun = sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
+       sh "docker pull $dockerHubUser/$containerName"
+         sshagent ('cicdserver'){
+          sh 'ssh -o StrictHostKeyChecking=no  hemant.kumar@192.168.31.87'} $(dockerrun)'
+       echo "Application started on port: ${httpPort} (http)"
+  }
     }
    
 
@@ -71,9 +72,3 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, dockerPassword, httpPort){
-     
-    sh "docker pull $dockerHubUser/$containerName"
-    sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
-    echo "Application started on port: ${httpPort} (http)"
-  }
