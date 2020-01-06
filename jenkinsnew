@@ -50,7 +50,7 @@ node {
 def imagePrune(containerName){
     try {
         sh "docker image prune -f"
-        sh "docker stop $containerName"
+        sh "docker stop $DOCKER_HUB_USER/$containerName"
     } catch(error){}
 }
 
