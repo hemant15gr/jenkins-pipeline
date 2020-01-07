@@ -43,7 +43,7 @@ node {
     
     stage('remote login'){
         sshagent (['cicdserver']){
-        sh 'ssh -T -R hemant.kumar@192.168.31.87'
+        sh 'ssh -T -p 22 hemant.kumar@192.168.31.87'
         }
        } 
     
