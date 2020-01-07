@@ -42,7 +42,7 @@ node {
      }   
      
     stage('Run App'){
-       def runApp = sh 'docker run -d --rm -p 8090:8090 --name jenkins-pipeline 192.168.31.114:5050/jenkins-pipeline'
+       def runApp = sh 'docker run -d -p 8090:8090 --name jenkins-pipeline 192.168.31.114:5050/jenkins-pipeline'
      sshagent ('cicdserver'){
       sh 'ssh -o StrictHostKeyChecking=no hemant.kumar@192.168.31.87 $(runApp)'
       }
