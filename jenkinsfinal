@@ -55,13 +55,13 @@ def imagePrune(containerName){
 }
 
 def imageBuild(containerName, tag){
-    sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
+    sh "docker build -t $containerName:${BUILD_NUMBER}  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
 
 def pushToImage(containerName, tag, dockerUser, dockerPassword){
     sh "docker login 192.168.31.114:5050 -u $dockerUser -p $dockerPassword"
-    sh "docker tag $containerName:$tag 192.168.31.114:5050/$containerName:${BUILD_NUMBER}"
+    sh "docker tag $containerName:${BUILD_NUMBER} 192.168.31.114:5050/$containerName:${BUILD_NUMBER}"
     sh "docker push 192.168.31.114:5050/$containerName:${BUILD_NUMBER}"
     echo "Image push complete"
 }
