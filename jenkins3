@@ -42,7 +42,7 @@ node {
      }   
      
     stage('Run App'){
-       def runApp = sh 'docker run -d --rm -p  8090:8090 --name jenkins-pipeline 192.168.31.114:5050/jenkins-pipeline'
+      runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
       sshagent(['cicdserver']){
       sh 'ssh -o StrictHostKeyChecking=no hemant.kumar@192.168.31.87 $(runApp)'
       }
@@ -66,4 +66,9 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     sh "docker tag $containerName:$tag 192.168.31.114:5050/$containerName:$tag"
     sh "docker push 192.168.31.114:5050/$containerName:$tag"
     echo "Image push complete"
-}
+} 
+def runApp(containerName, tag, dockerHubUser, dockerPassword, httpPort){
+    sh "docker pull $dockerHubUser/$containerName"
+    sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
+    echo "Application started on port: ${httpPort} (http)"
+  }
