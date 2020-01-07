@@ -1,4 +1,4 @@
-def CONTAINER_NAME="jenkins-pipeline-new"
+def CONTAINER_NAME="jenkins-pipeline"
 def CONTAINER_TAG="latest"
 def DOCKER_HUB_USER="192.168.31.114:5050"
 def HTTP_PORT="8090"
@@ -39,13 +39,8 @@ node {
         withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
-    }
+    }   
     
-     stage("Image Local delete"){
-        imagePrune(CONTAINER_NAME)
-         
-     }
-
     stage('Run App'){
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
