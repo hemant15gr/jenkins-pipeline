@@ -43,7 +43,7 @@ node {
     
     stage('Run App'){
         sshagent (['cicdserver']){
-        sh 'ssh -o StrictHostKeyChecking=no hemant.kumar@192.168.31.87'
+        sh 'ssh -o StrictHostKeyChecking=no -L hemant.kumar@192.168.31.87 uname -a'
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
 
