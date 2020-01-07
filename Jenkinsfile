@@ -40,6 +40,11 @@ node {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
     }
+    
+     stage("Image Local delete"){
+        imagePrune(CONTAINER_NAME)
+         
+     }
 
     stage('Run App'){
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
