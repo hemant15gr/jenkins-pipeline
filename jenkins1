@@ -42,9 +42,9 @@ node {
     }   
     
     stage('Run App'){
-       sshagent (['cicdserver']){
-        sh 'ssh -T hemant.kumar@192.168.31.87 $(runApp)'
-        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+       sshagent(credentials : ['cicdserver']) {
+            sh 'ssh -o StrictHostKeyChecking=no hemant.kumar@192.168.31.87 $(runApp)'
+            runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
    }
 }
