@@ -68,8 +68,6 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
 }
 
 def runApp(containerName, tag, dockerHubUser, dockerPassword, httpPort){
-     sshagent ('cicdserver'){
-      sh 'ssh -o StrictHostKeyChecking=no  hemant.kumar@192.168.31.87'}
     sh "docker pull $dockerHubUser/$containerName"
     sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
     echo "Application started on port: ${httpPort} (http)"
