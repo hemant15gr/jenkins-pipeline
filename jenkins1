@@ -41,16 +41,12 @@ node {
         }
     }   
     
-    stage('remote login'){
-        sshagent (['cicdserver']){
-        sh 'ssh -T hemant.kumar@192.168.31.87'
-        }
-       } 
-    
     stage('Run App'){
+       sshagent (['cicdserver']){
+        sh 'ssh -T hemant.kumar@192.168.31.87 $(runApp)'
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
-
+   }
 }
 def imagePrune(containerName){
     try {
